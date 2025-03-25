@@ -1,0 +1,73 @@
+{
+  "hash": "6543eb0c",
+  "configHash": "e484d1aa",
+  "lockfileHash": "05fa9527",
+  "browserHash": "b5da4386",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "d643c477",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "629d5f4b",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "3859ac18",
+      "needsInterop": true
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "66dd7287",
+      "needsInterop": false
+    },
+    "@mui/material/Box": {
+      "src": "../../node_modules/@mui/material/Box/index.js",
+      "file": "@mui_material_Box.js",
+      "fileHash": "ba548d3a",
+      "needsInterop": false
+    },
+    "@mui/material/Typography": {
+      "src": "../../node_modules/@mui/material/Typography/index.js",
+      "file": "@mui_material_Typography.js",
+      "fileHash": "4803b8a0",
+      "needsInterop": false
+    },
+    "@mui/material/Modal": {
+      "src": "../../node_modules/@mui/material/Modal/index.js",
+      "file": "@mui_material_Modal.js",
+      "fileHash": "33cf6521",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-36YISSS7": {
+      "file": "chunk-36YISSS7.js"
+    },
+    "chunk-OMSAZLVL": {
+      "file": "chunk-OMSAZLVL.js"
+    },
+    "chunk-RNYZG65L": {
+      "file": "chunk-RNYZG65L.js"
+    },
+    "chunk-FPEHQ7MX": {
+      "file": "chunk-FPEHQ7MX.js"
+    },
+    "chunk-PEZYITNI": {
+      "file": "chunk-PEZYITNI.js"
+    },
+    "chunk-RNUPAVRD": {
+      "file": "chunk-RNUPAVRD.js"
+    },
+    "chunk-DDNM7ENY": {
+      "file": "chunk-DDNM7ENY.js"
+    }
+  }
+}
