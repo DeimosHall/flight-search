@@ -1,13 +1,11 @@
 import './App.css'
 import { TodoListContextProvider } from './context/TodosFilterContext'
-import TodoApp from './views/TodoApp'
+import FlightSearchApp from './views/FlightSearchApp'
 
 function App() {
   return (
     <div className="App">
-      <TodoListContextProvider>
-        <TodoApp />
-      </TodoListContextProvider>
+      <FlightSearchApp />
     </div>
   )
 }
