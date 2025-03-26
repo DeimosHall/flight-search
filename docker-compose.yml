@@ -13,3 +13,13 @@ services:
     environment:
       - NODE_ENV=development
     command: ["npm", "run", "dev"]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    environment:
+      - JAVA_OPTS=-Xmx512m
+    command: ["java", "-jar", "app.jar"]
