@@ -1,14 +1,24 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk
+# Stage 1 - Build the application
+FROM gradle:jdk17 AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the build files from the host to the container
-COPY build/libs/*.jar app.jar
-
-# Expose the port the application runs on
 EXPOSE 9090
 
-# Run the application
+ENV GRADLE_USER_HOME /home/gradle/project
+
+COPY . .
+
+# Build the application
+RUN ./gradlew clean build --no-daemon
+
+# Stage 2 - Package the application
+FROM gradle:jdk17
+
+WORKDIR /app
+
+COPY --from=build /app/build/libs/*.jar app.jar
+
+EXPOSE 9090
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
