@@ -19,5 +19,7 @@ services:
     ports:
       - "9090:9090"
     environment:
-      - JAVA_OPTS=-Xmx512m
+      JAVA_OPTS: -Xmx512m
+      AMADEUS_API_KEY: ${AMADEUS_API_KEY}
+      AMADEUS_API_SECRET: ${AMADEUS_API_SECRET}
     command: ["java", "-jar", "app.jar"]
