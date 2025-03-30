@@ -6,7 +6,7 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Grid,
+  Grid2,
   MenuItem,
 } from '@mui/material';
 
@@ -51,8 +51,8 @@ const SearchPage = () => {
         Flight Search
       </Typography>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
               label="Departure Airport"
@@ -65,8 +65,8 @@ const SearchPage = () => {
               <MenuItem value="JFK">JFK</MenuItem>
               <MenuItem value="LHR">LHR</MenuItem>
             </TextField>
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
               label="Arrival Airport"
@@ -79,8 +79,8 @@ const SearchPage = () => {
               <MenuItem value="ORD">ORD</MenuItem>
               <MenuItem value="CDG">CDG</MenuItem>
             </TextField>
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
               label="Departure Date"
@@ -92,8 +92,8 @@ const SearchPage = () => {
                 shrink: true,
               }}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
               label="Return Date"
@@ -105,8 +105,8 @@ const SearchPage = () => {
                 shrink: true,
               }}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
               label="Currency"
@@ -119,8 +119,8 @@ const SearchPage = () => {
               <MenuItem value="EUR">EUR</MenuItem>
               <MenuItem value="GBP">GBP</MenuItem>
             </TextField>
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
               label="Number of Adults"
@@ -130,8 +130,8 @@ const SearchPage = () => {
               onChange={handleChange}
               InputProps={{ inputProps: { min: 1 } }}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -143,13 +143,13 @@ const SearchPage = () => {
               }
               label="Non-stop"
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
             <Button variant="contained" color="primary" fullWidth type="submit">
               Search
             </Button>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </form>
     </Container>
   );
