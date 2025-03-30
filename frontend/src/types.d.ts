@@ -5,5 +5,5 @@ export interface FlightSearchParams {
   returnDate?: string;  // Optional
   currency: string;
   nonStop: boolean;
-  numberOfAdults: number;
+  adults: number;
 }

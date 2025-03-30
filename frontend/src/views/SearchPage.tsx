@@ -19,7 +19,7 @@ interface FlightSearchForm {
   returnDate: string;
   currency: string;
   nonStop: boolean;
-  numberOfAdults: number;
+  adults: number;
 }
 
 const SearchPage = () => {
@@ -30,7 +30,7 @@ const SearchPage = () => {
     returnDate: '',
     currency: 'USD',
     nonStop: false,
-    numberOfAdults: 1,
+    adults: 1,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -93,7 +93,7 @@ const SearchPage = () => {
               label="Number of Adults"
               name="numberOfAdults"
               type="number"
-              value={formData.numberOfAdults}
+              value={formData.adults}
               onChange={handleChange}
               inputProps={{
                 min: 1
