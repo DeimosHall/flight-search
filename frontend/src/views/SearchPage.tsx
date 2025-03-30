@@ -10,6 +10,7 @@ import {
   Grid2,
   MenuItem,
   Switch,
+  Alert,
 } from '@mui/material';
 import { flights } from '../api/flights';
 
@@ -44,9 +45,42 @@ const SearchPage = () => {
     }));
   };
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const validateFormData = (data: FlightSearchForm) => {
+    const { departureAirport, arrivalAirport, departureDate, returnDate, adults } = data;
+
+    if (!departureAirport || !arrivalAirport || !departureDate || !adults) {
+      setErrorMessage('Please fill in all required fields.');
+      return false;
+    }
+
+    if (adults < 1 || adults > 9) {
+      setErrorMessage('Number of adults must be between 1 and 9.');
+      return false;
+    }
+
+    if (new Date(departureDate) < new Date()) {
+      setErrorMessage('Departure date cannot be in the past.');
+      return false;
+    }
+
+    if (returnDate && new Date(returnDate) <= new Date(departureDate)) {
+      setErrorMessage('Return date must be after departure date.');
+      return false;
+    }
+
+    setErrorMessage(null);
+    return true;
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log(formData);
+    if (!validateFormData(formData)) {
+      console.error('Invalid form data');
+      return;
+    }
     try {
       const response = await flights.getAll(formData);
       console.log('Flight search results:', response);
@@ -61,9 +95,9 @@ const SearchPage = () => {
       <Typography variant="h4" align="center" gutterBottom>
         Flight Search
       </Typography>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ width: '120%' }}>
         <Grid2 container spacing={2}>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <TextField
               fullWidth
               label="Departure Airport"
@@ -77,7 +111,7 @@ const SearchPage = () => {
               <MenuItem value="LHR">LHR</MenuItem>
             </TextField>
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <TextField
               fullWidth
               label="Arrival Airport"
@@ -91,20 +125,23 @@ const SearchPage = () => {
               <MenuItem value="CDG">CDG</MenuItem>
             </TextField>
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <TextField
               fullWidth
               label="Number of Adults"
-              name="numberOfAdults"
+              name="adults"
               type="number"
               value={formData.adults}
               onChange={handleChange}
-              inputProps={{
-                min: 1
+              slotProps={{
+                htmlInput: {
+                  min: 1,
+                  max: 9
+                },
               }}
             />
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <TextField
               fullWidth
               label="Currency"
@@ -118,7 +155,7 @@ const SearchPage = () => {
               <MenuItem value="MXN">MXN</MenuItem>
             </TextField>
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <TextField
               fullWidth
               label="Departure Date"
@@ -133,7 +170,7 @@ const SearchPage = () => {
               }}
             />
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <FormControlLabel
               control={
                 <Switch
@@ -168,7 +205,7 @@ const SearchPage = () => {
               />
             )}
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -181,10 +218,13 @@ const SearchPage = () => {
               label="Non-stop"
             />
           </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
             <Button variant="contained" color="primary" fullWidth type="submit">
               Search
             </Button>
+          </Grid2>
+          <Grid2 size={{ xs: 4, sm: 10 }}>
+            {errorMessage && <Alert severity="error" style={{ marginBottom: '16px', width: "94%" }}>{errorMessage}</Alert>}
           </Grid2>
         </Grid2>
       </form>
