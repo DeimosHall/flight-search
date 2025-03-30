@@ -1,5 +1,6 @@
 package com.example.flight_search.controllers;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class FlightSearchController {
     }
 
     @PostMapping("/flights")
-    public ResponseEntity<?> searchFlights(@RequestBody FlightSearchModel request) {
+    public ResponseEntity<?> searchFlights(@RequestBody FlightSearchModel request) throws JSONException {
         return ResponseEntity.ok(flightSearchService.searchFlights(request));
     }
 }

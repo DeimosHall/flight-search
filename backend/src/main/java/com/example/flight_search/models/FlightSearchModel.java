@@ -12,6 +12,9 @@ public class FlightSearchModel {
     private boolean nonStop;
 
     public FlightSearchModel(String departureAirport, String arrivalAirport, LocalDate departureDate, LocalDate returnDate, int adults, String currency, boolean nonStop) {
+        if (adults < 1 || adults > 9) {
+            throw new IllegalArgumentException("The number of adults must be between 1 and 9. You provided: " + adults);
+        }
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.departureDate = departureDate;
