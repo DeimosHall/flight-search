@@ -18,9 +18,9 @@ const ResultsPage = () => {
 
   return (
     <Container maxWidth="md">
-      <Button 
-        variant="outlined" 
-        onClick={handleReturnToSearch} 
+      <Button
+        variant="outlined"
+        onClick={handleReturnToSearch}
         style={{ marginTop: '20px', marginBottom: '20px' }}
       >
         &lt; Return to Search
@@ -32,8 +32,8 @@ const ResultsPage = () => {
           elevation={3}
           style={{ padding: '20px', marginBottom: '20px' }}
         >
-          <Box display="flex" flexWrap="wrap" gap={2}>
-            <Box flex="1 1 50%">
+          <Box display="flex" flexDirection="column" minWidth="540px" flexWrap="wrap" gap={2}>
+            <Box display="flex" flexDirection="column" textAlign="left">
               <Typography variant="subtitle1">
                 {result.segments[0].departureTime} - {result.segments[result.segments.length - 1].arrivalTime}
               </Typography>
@@ -53,17 +53,19 @@ const ResultsPage = () => {
                   ))}
                 </Typography>
               )}
+            </Box>
+            <Box flex="1 1 50%" display="flex" justifyContent="space-between" alignItems="center">
               <Typography variant="body2">
                 {result.segments[0].carrierCode}
               </Typography>
-            </Box>
-            <Box flex="1 1 50%" textAlign="right">
-              <Typography variant="h6">
-                {result.totalPrice} {result.currency} total
-              </Typography>
-              <Typography variant="body2">
-                {result.pricePerTraveler} {result.currency} per traveler
-              </Typography>
+              <Box textAlign="right">
+                <Typography variant="h6">
+                  {result.totalPrice} {result.currency} total
+                </Typography>
+                <Typography variant="body2">
+                  {result.pricePerTraveler} {result.currency} per traveler
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Paper>
