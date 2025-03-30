@@ -3,14 +3,11 @@ import {
   Container,
   Typography,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Checkbox,
   FormControlLabel,
+  Checkbox,
   Button,
   Grid,
+  MenuItem,
 } from '@mui/material';
 
 interface FlightSearchForm {
@@ -20,6 +17,7 @@ interface FlightSearchForm {
   returnDate: string;
   currency: string;
   nonStop: boolean;
+  numberOfAdults: number; // Added field
 }
 
 const SearchPage = () => {
@@ -30,20 +28,21 @@ const SearchPage = () => {
     returnDate: '2022-01-01',
     currency: 'USD',
     nonStop: false,
+    numberOfAdults: 1, // Default value
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : type === 'number' ? parseInt(value, 10) : value,
     }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     console.log(formData);
-    // Aquí puedes agregar la lógica para enviar la búsqueda de vuelos
+    // Here you would typically send the form data to your backend API
   };
 
   return (
@@ -122,6 +121,17 @@ const SearchPage = () => {
             </TextField>
           </Grid>
           <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Number of Adults"
+              name="numberOfAdults"
+              type="number"
+              value={formData.numberOfAdults}
+              onChange={handleChange}
+              InputProps={{ inputProps: { min: 1 } }}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -143,6 +153,6 @@ const SearchPage = () => {
       </form>
     </Container>
   );
-}
+};
 
 export default SearchPage;
