@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Typography,
@@ -33,6 +34,8 @@ const SearchPage = () => {
     adults: 1,
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = event.target as HTMLInputElement;
     setFormData((prevFormData) => ({
@@ -47,6 +50,7 @@ const SearchPage = () => {
     try {
       const response = await flights.getAll(formData);
       console.log('Flight search results:', response);
+      navigate('/results', { state: { data: response.data } });
     } catch (error) {
       console.error('Error fetching flight data:', error);
     }
