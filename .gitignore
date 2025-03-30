@@ -1,2 +1,4 @@
 # macOS folder attributes
 .DS_Store
+
+.vscode/
