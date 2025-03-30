@@ -8,7 +8,9 @@ import {
   Button,
   Grid2,
   MenuItem,
+  Switch,
 } from '@mui/material';
+import { flights } from '../api/flights';
 
 interface FlightSearchForm {
   departureAirport: string;
@@ -17,32 +19,37 @@ interface FlightSearchForm {
   returnDate: string;
   currency: string;
   nonStop: boolean;
-  numberOfAdults: number; // Added field
+  numberOfAdults: number;
 }
 
 const SearchPage = () => {
   const [formData, setFormData] = useState<FlightSearchForm>({
     departureAirport: 'SFO',
     arrivalAirport: 'LAX',
-    departureDate: '2022-01-01',
-    returnDate: '2022-01-01',
+    departureDate: new Date().toISOString().split('T')[0],
+    returnDate: '',
     currency: 'USD',
     nonStop: false,
-    numberOfAdults: 1, // Default value
+    numberOfAdults: 1,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = event.target;
+    const { name, value, type, checked } = event.target as HTMLInputElement;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: type === 'checkbox' ? checked : type === 'number' ? parseInt(value, 10) : value,
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log(formData);
-    // Here you would typically send the form data to your backend API
+    try {
+      const response = await flights.getAll(formData);
+      console.log('Flight search results:', response);
+    } catch (error) {
+      console.error('Error fetching flight data:', error);
+    }
   };
 
   return (
@@ -83,26 +90,13 @@ const SearchPage = () => {
           <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
-              label="Departure Date"
-              name="departureDate"
-              type="date"
-              value={formData.departureDate}
+              label="Number of Adults"
+              name="numberOfAdults"
+              type="number"
+              value={formData.numberOfAdults}
               onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid2>
-          <Grid2 size={{ xs: 20, sm: 10 }}>
-            <TextField
-              fullWidth
-              label="Return Date"
-              name="returnDate"
-              type="date"
-              value={formData.returnDate}
-              onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
+              inputProps={{
+                min: 1
               }}
             />
           </Grid2>
@@ -117,19 +111,58 @@ const SearchPage = () => {
             >
               <MenuItem value="USD">USD</MenuItem>
               <MenuItem value="EUR">EUR</MenuItem>
-              <MenuItem value="GBP">GBP</MenuItem>
+              <MenuItem value="MXN">MXN</MenuItem>
             </TextField>
           </Grid2>
           <Grid2 size={{ xs: 20, sm: 10 }}>
             <TextField
               fullWidth
-              label="Number of Adults"
-              name="numberOfAdults"
-              type="number"
-              value={formData.numberOfAdults}
+              label="Departure Date"
+              name="departureDate"
+              type="date"
+              value={formData.departureDate}
               onChange={handleChange}
-              InputProps={{ inputProps: { min: 1 } }}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
             />
+          </Grid2>
+          <Grid2 size={{ xs: 20, sm: 10 }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={!!formData.returnDate}
+                  onChange={(event) => {
+                    setFormData((prevFormData) => ({
+                      ...prevFormData,
+                      returnDate: event.target.checked
+                        ? new Date(Date.now() + 86400000).toISOString().split('T')[0]
+                        : '',
+                    }));
+                  }}
+                  name="returnDateSwitch"
+                  color="primary"
+                />
+              }
+              label="Return Date"
+            />
+            {formData.returnDate && (
+              <TextField
+                fullWidth
+                label="Return Date"
+                name="returnDate"
+                type="date"
+                value={formData.returnDate}
+                onChange={handleChange}
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
+              />
+            )}
           </Grid2>
           <Grid2 size={{ xs: 20, sm: 10 }}>
             <FormControlLabel
