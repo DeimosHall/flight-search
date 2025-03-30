@@ -50,7 +50,7 @@ const SearchPage = () => {
     try {
       const response = await flights.getAll(formData);
       console.log('Flight search results:', response);
-      navigate('/results', { state: { data: response.data } });
+      navigate('/results', { state: { data: response } });
     } catch (error) {
       console.error('Error fetching flight data:', error);
     }
