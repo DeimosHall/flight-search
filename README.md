@@ -38,18 +38,28 @@ export AMADEUS_API_KEY=your_api_key
 export AMADEUS_API_SECRET=your_api_secret
 ```
 
-3. Run the project using Docker
+4. Run the project using Docker
 
-For testing without development enviroment, no Java or NodeJS is required to be installed on your system:
+For testing without development enviroment, no Java or NodeJS are required to be installed on your system:
 
 ```bash
 docker-compose up
 ```
 
-For development:
+For development you need to modify the backend dockerfile as follows:
+
+```dockerfile
+# Copy the build files from the previous stage for production
+# COPY --from=build /app/build/libs/*.jar app.jar
+
+# Copy the build files from the host to the container for development
+COPY build/libs/*.jar app.jar
+```
+
+And then run the following command:
 
 ```bash
 cd backend && ./gradlew build && cd .. && docker-compose up --build
 ```
 
-4. Test the app on your browser, go to http://localhost:8080/
+5. Test the app on your browser, go to http://localhost:8080/
