@@ -13,8 +13,10 @@ import {
   Alert,
   Box,
   CircularProgress,
+  Autocomplete,
 } from '@mui/material';
 import { flights } from '../api/flights';
+import airports from '../assets/data/airports.json';
 
 interface FlightSearchForm {
   departureAirport: string;
@@ -26,9 +28,17 @@ interface FlightSearchForm {
   adults: number;
 }
 
+interface Airport {
+  name: string;
+  state: string;
+}
+
+type AirportsData = {
+  [code: string]: Airport;
+}
+
 const SearchPage = () => {
   const [loading, setLoading] = useState(false);
-
   const [formData, setFormData] = useState<FlightSearchForm>({
     departureAirport: 'SFO',
     arrivalAirport: 'LAX',
@@ -38,6 +48,10 @@ const SearchPage = () => {
     nonStop: false,
     adults: 1,
   });
+  const [departureOptions, setDepartureOptions] = useState<Array<{ code: string; label: string }>>([]);
+  const [arrivalOptions, setArrivalOptions] = useState<Array<{ code: string; label: string }>>([]);
+  const [departureInputValue, setDepartureInputValue] = useState('');
+  const [arrivalInputValue, setArrivalInputValue] = useState('');
 
   useEffect(() => {
     return () => {
@@ -114,32 +128,80 @@ const SearchPage = () => {
       <form onSubmit={handleSubmit} style={{ width: '120%' }}>
         <Grid2 container spacing={2}>
           <Grid2 size={{ xs: 4, sm: 10 }}>
-            <TextField
+            <Autocomplete
               fullWidth
-              label="Departure Airport"
-              name="departureAirport"
-              value={formData.departureAirport}
-              onChange={handleChange}
-              select
-            >
-              <MenuItem value="SFO">SFO</MenuItem>
-              <MenuItem value="JFK">JFK</MenuItem>
-              <MenuItem value="LHR">LHR</MenuItem>
-            </TextField>
+              options={departureOptions}
+              inputValue={departureInputValue}
+              onInputChange={(_, newInputValue) => {
+                setDepartureInputValue(newInputValue);
+                const filteredAirports = Object.entries(airports as AirportsData)
+                  .filter(([code, airport]) =>
+                    airport.name.toLowerCase().includes(newInputValue.toLowerCase()) ||
+                    code.toLowerCase().includes(newInputValue.toLowerCase())
+                  )
+                  .map(([code, airport]) => ({
+                    code,
+                    label: `${airport.name} (${code})`
+                  }))
+                  .slice(0, 10);
+                setDepartureOptions(filteredAirports);
+              }}
+              isOptionEqualToValue={(option, value) => option.code === value.code}
+              onChange={(_, newValue) => {
+                if (newValue) {
+                  setFormData(prev => ({
+                    ...prev,
+                    departureAirport: newValue.code as string
+                  }));
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Departure Airport"
+                  name="departureAirport"
+                  fullWidth
+                />
+              )}
+            />
           </Grid2>
           <Grid2 size={{ xs: 4, sm: 10 }}>
-            <TextField
+            <Autocomplete
               fullWidth
-              label="Arrival Airport"
-              name="arrivalAirport"
-              value={formData.arrivalAirport}
-              onChange={handleChange}
-              select
-            >
-              <MenuItem value="LAX">LAX</MenuItem>
-              <MenuItem value="ORD">ORD</MenuItem>
-              <MenuItem value="CDG">CDG</MenuItem>
-            </TextField>
+              options={arrivalOptions}
+              inputValue={arrivalInputValue}
+              onInputChange={(_, newInputValue) => {
+                setArrivalInputValue(newInputValue);
+                const filteredAirports = Object.entries(airports as AirportsData)
+                  .filter(([code, airport]) =>
+                    airport.name.toLowerCase().includes(newInputValue.toLowerCase()) ||
+                    code.toLowerCase().includes(newInputValue.toLowerCase())
+                  )
+                  .map(([code, airport]) => ({
+                    code,
+                    label: `${airport.name} (${code})`
+                  }))
+                  .slice(0, 10);
+                setArrivalOptions(filteredAirports);
+              }}
+              isOptionEqualToValue={(option, value) => option.code === value.code}
+              onChange={(_, newValue) => {
+                if (newValue) {
+                  setFormData(prev => ({
+                    ...prev,
+                    arrivalAirport: newValue.code
+                  }));
+                }
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Arrival Airport"
+                  name="arrivalAirport"
+                  fullWidth
+                />
+              )}
+            />
           </Grid2>
           <Grid2 size={{ xs: 4, sm: 10 }}>
             <TextField
