@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -11,6 +11,8 @@ import {
   MenuItem,
   Switch,
   Alert,
+  Box,
+  CircularProgress,
 } from '@mui/material';
 import { flights } from '../api/flights';
 
@@ -25,6 +27,8 @@ interface FlightSearchForm {
 }
 
 const SearchPage = () => {
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState<FlightSearchForm>({
     departureAirport: 'SFO',
     arrivalAirport: 'LAX',
@@ -34,6 +38,12 @@ const SearchPage = () => {
     nonStop: false,
     adults: 1,
   });
+
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -81,12 +91,18 @@ const SearchPage = () => {
       console.error('Invalid form data');
       return;
     }
+
+    setLoading(true);
+
     try {
       const response = await flights.getAll(formData);
       console.log('Flight search results:', response);
       navigate('/results', { state: { data: response } });
     } catch (error) {
       console.error('Error fetching flight data:', error);
+      setErrorMessage('Failed to fetch flight data. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -219,9 +235,29 @@ const SearchPage = () => {
             />
           </Grid2>
           <Grid2 size={{ xs: 4, sm: 10 }}>
-            <Button variant="contained" color="primary" fullWidth type="submit">
-              Search
-            </Button>
+            <Box sx={{ position: 'relative' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                type="submit"
+                disabled={loading}
+              >
+                Search
+              </Button>
+              {loading && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    marginTop: '-12px',
+                    marginLeft: '-12px',
+                  }}
+                />
+              )}
+            </Box>
           </Grid2>
           <Grid2 size={{ xs: 4, sm: 10 }}>
             {errorMessage && <Alert severity="error" style={{ marginBottom: '16px', width: "94%" }}>{errorMessage}</Alert>}
