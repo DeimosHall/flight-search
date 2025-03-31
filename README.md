@@ -24,6 +24,20 @@ git clone git@github.com:DeimosHall/flight-search.git
 cd flight-search
 ```
 
+3. Setup you API KEYS
+
+In order to be able to run the project, you need to provide your own API_KEY and API_SECRET. You can get them by creating an account in [Amadeus for developers](https://developers.amadeus.com/).
+
+Use the following commands to setup your own variables:
+
+```bash
+export AMADEUS_API_KEY=your_api_key
+```
+
+```bash
+export AMADEUS_API_SECRET=your_api_secret
+```
+
 3. Run the project using Docker
 
 For testing without development enviroment, no Java or NodeJS is required to be installed on your system:
