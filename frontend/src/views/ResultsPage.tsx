@@ -28,6 +28,27 @@ const ResultsPage = () => {
     return airport ? `${airport.name} (${airportCode})` : airportCode;
   };
 
+  const formatTime = (dateTimeString: string): string => {
+    const date = new Date(dateTimeString);
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  // Converts PT10H23M to 10h 23m for example
+  const formatTravelTime = (travelTime: string): string => {
+    const regex = /PT(\d+)H(\d+)M/;
+    const match = travelTime.match(regex);
+    if (match) {
+      const hours = match[1];
+      const minutes = match[2];
+      return `${hours}h ${minutes}m`;
+    }
+    return travelTime;
+  }
+
   return (
     <Container maxWidth="md">
       <Button
@@ -47,13 +68,13 @@ const ResultsPage = () => {
           <Box display="flex" flexDirection="column" minWidth="540px" flexWrap="wrap" gap={2}>
             <Box display="flex" flexDirection="column" textAlign="left">
               <Typography variant="subtitle1">
-                {result.segments[0].departureTime} - {result.segments[result.segments.length - 1].arrivalTime}
+              {formatTime(result.segments[0].departureTime)} - {formatTime(result.segments[result.segments.length - 1].arrivalTime)}
               </Typography>
               <Typography variant="body2">
                 {getAirportName(result.segments[0].departureAirport)} - {getAirportName(result.segments[result.segments.length - 1].arrivalAirport)}
               </Typography>
               <Typography variant="body2">
-                {result.totalDuration} ({result.layovers.length > 0 ? `${result.layovers.length} stop${result.layovers.length > 1 ? 's' : ''}` : 'Nonstop'})
+                {formatTravelTime(result.totalDuration)} ({result.layovers.length > 0 ? `${result.layovers.length} stop${result.layovers.length > 1 ? 's' : ''}` : 'Nonstop'})
               </Typography>
               {result.layovers.length > 0 && (
                 <Typography variant="body2">
