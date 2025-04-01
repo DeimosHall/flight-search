@@ -6,6 +6,7 @@ import {
   Button,
   Box,
 } from '@mui/material';
+import airlines from '../assets/data/airlines.json';
 
 const ResultsPage = () => {
   const location = useLocation();
@@ -15,6 +16,11 @@ const ResultsPage = () => {
   const handleReturnToSearch = () => {
     navigate('/');
   };
+
+  const getAirlineName = (carrierCode: string) => {
+    const airline = airlines.find((airline) => airline.iata === carrierCode);
+    return airline ? `${airline.name} (${carrierCode})` : carrierCode;
+  }
 
   return (
     <Container maxWidth="md">
@@ -56,7 +62,7 @@ const ResultsPage = () => {
             </Box>
             <Box flex="1 1 50%" display="flex" justifyContent="space-between" alignItems="center">
               <Typography variant="body2">
-                {result.segments[0].carrierCode}
+                {getAirlineName(result.segments[0].carrierCode)}
               </Typography>
               <Box textAlign="right">
                 <Typography variant="h6">
