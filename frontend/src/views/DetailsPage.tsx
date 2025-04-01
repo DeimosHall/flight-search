@@ -64,9 +64,15 @@ const DetailsPage = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 4 }}>
-        <Button variant="outlined" onClick={handleBack} sx={{ mb: 3 }}>
-          Back to Results
+      <Box display="flex" flexDirection="column" alignItems="left">
+        <Button
+          variant="outlined"
+          onClick={handleBack}
+          style={{ marginTop: '20px', marginBottom: '20px', width: '200px' }}
+        >
+          Return to Results
         </Button>
+      </Box>
 
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
@@ -117,7 +123,7 @@ const DetailsPage = () => {
                   {index < flightDetails.segments.length - 1 && flightDetails.layovers[index] && (
                     <Box sx={{ mt: 2, bgcolor: 'grey.100', p: 2, borderRadius: 1 }}>
                       <Typography variant="subtitle2" color="text.secondary">
-                        Layover in {getAirportName(flightDetails.layovers[index].airport)}
+                        Layover in {getAirportName(flightDetails.layovers[index].airportCode)}
                       </Typography>
                       <Typography color="text.secondary">
                         Duration: {formatTravelTime(flightDetails.layovers[index].duration)}

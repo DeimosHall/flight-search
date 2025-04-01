@@ -78,17 +78,16 @@ const ResultsPage = () => {
                 {formatTime(result.segments[0].departureTime)} - {formatTime(result.segments[result.segments.length - 1].arrivalTime)}
               </Typography>
               <Typography variant="body2">
-                {getAirportName(result.segments[0].departureAirport)} - {getAirportName(result.segments[result.segments.length - 1].arrivalAirport)}
+                {getAirportName(result.segments[0].departureAirport)} → {getAirportName(result.segments[result.segments.length - 1].arrivalAirport)}
               </Typography>
               <Typography variant="body2">
-                {formatTravelTime(result.totalDuration)} ({result.layovers.length > 0 ? `${result.layovers.length} stop${result.layovers.length > 1 ? 's' : ''}` : 'Nonstop'})
+                {formatTravelTime(result.totalDuration)} in total ({result.layovers.length > 0 ? `${result.layovers.length} stop${result.layovers.length > 1 ? 's' : ''}` : 'Nonstop'})
               </Typography>
               {result.layovers.length > 0 && (
                 <Typography variant="body2">
                   {result.layovers.map((layover, index) => (
-                    <span key={index}>
-                      {index > 0 && ', '}
-                      {formatTravelTime(layover.duration)} in {layover.airport}
+                    <span key={index} style={{ display: 'block' }}>
+                      {formatTravelTime(layover.duration)} in {getAirportName(layover.airportCode)}
                     </span>
                   ))}
                 </Typography>
