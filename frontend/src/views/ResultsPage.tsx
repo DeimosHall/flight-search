@@ -7,6 +7,7 @@ import {
   Box,
 } from '@mui/material';
 import airlines from '../assets/data/airlines.json';
+import airports from '../assets/data/airports.json';
 
 const ResultsPage = () => {
   const location = useLocation();
@@ -21,6 +22,11 @@ const ResultsPage = () => {
     const airline = airlines.find((airline) => airline.iata === carrierCode);
     return airline ? `${airline.name} (${carrierCode})` : carrierCode;
   }
+
+  const getAirportName = (airportCode: string) => {
+    const airport = airports[airportCode as keyof typeof airports];
+    return airport ? `${airport.name} (${airportCode})` : airportCode;
+  };
 
   return (
     <Container maxWidth="md">
@@ -44,7 +50,7 @@ const ResultsPage = () => {
                 {result.segments[0].departureTime} - {result.segments[result.segments.length - 1].arrivalTime}
               </Typography>
               <Typography variant="body2">
-                {result.segments[0].departureAirport} - {result.segments[result.segments.length - 1].arrivalAirport}
+                {getAirportName(result.segments[0].departureAirport)} - {getAirportName(result.segments[result.segments.length - 1].arrivalAirport)}
               </Typography>
               <Typography variant="body2">
                 {result.totalDuration} ({result.layovers.length > 0 ? `${result.layovers.length} stop${result.layovers.length > 1 ? 's' : ''}` : 'Nonstop'})
