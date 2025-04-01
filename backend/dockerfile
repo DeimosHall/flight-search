@@ -17,7 +17,11 @@ FROM gradle:jdk17
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar app.jar
+# Copy the build files from the previous stage for production
+# COPY --from=build /app/build/libs/*.jar app.jar
+
+# Copy the build files from the host to the container for development
+COPY build/libs/*.jar app.jar
 
 EXPOSE 9090
 
