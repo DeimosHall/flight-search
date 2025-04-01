@@ -49,6 +49,10 @@ const ResultsPage = () => {
     return travelTime;
   }
 
+  const handleFlightClick = (result: any) => {
+    navigate('/flight-details', { state: { flightDetails: result } });
+  };
+
   return (
     <Container maxWidth="md">
       <Box display="flex" flexDirection="column" alignItems="left">
@@ -65,7 +69,8 @@ const ResultsPage = () => {
         <Paper
           key={index}
           elevation={3}
-          style={{ padding: '20px', marginBottom: '20px' }}
+          style={{ padding: '20px', marginBottom: '20px', cursor: 'pointer' }}
+          onClick={() => handleFlightClick(result)}
         >
           <Box display="flex" flexDirection="column" minWidth="540px" flexWrap="wrap" gap={2}>
             <Box display="flex" flexDirection="column" textAlign="left">
