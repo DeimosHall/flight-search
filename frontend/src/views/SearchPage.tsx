@@ -42,7 +42,7 @@ const SearchPage = () => {
   const [formData, setFormData] = useState<FlightSearchForm>({
     departureAirport: 'SFO',
     arrivalAirport: 'LAX',
-    departureDate: new Date().toISOString().split('T')[0],
+    departureDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
     returnDate: '',
     currency: 'USD',
     nonStop: false,
