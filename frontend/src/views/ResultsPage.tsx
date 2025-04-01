@@ -51,13 +51,15 @@ const ResultsPage = () => {
 
   return (
     <Container maxWidth="md">
-      <Button
-        variant="outlined"
-        onClick={handleReturnToSearch}
-        style={{ marginTop: '20px', marginBottom: '20px' }}
-      >
-        &lt; Return to Search
-      </Button>
+      <Box display="flex" flexDirection="column" alignItems="left">
+        <Button
+          variant="outlined"
+          onClick={handleReturnToSearch}
+          style={{ marginTop: '20px', marginBottom: '20px', width: '200px' }}
+        >
+          Return to Search
+        </Button>
+      </Box>
 
       {results.map((result, index) => (
         <Paper
@@ -68,7 +70,7 @@ const ResultsPage = () => {
           <Box display="flex" flexDirection="column" minWidth="540px" flexWrap="wrap" gap={2}>
             <Box display="flex" flexDirection="column" textAlign="left">
               <Typography variant="subtitle1">
-              {formatTime(result.segments[0].departureTime)} - {formatTime(result.segments[result.segments.length - 1].arrivalTime)}
+                {formatTime(result.segments[0].departureTime)} - {formatTime(result.segments[result.segments.length - 1].arrivalTime)}
               </Typography>
               <Typography variant="body2">
                 {getAirportName(result.segments[0].departureAirport)} - {getAirportName(result.segments[result.segments.length - 1].arrivalAirport)}
@@ -81,7 +83,7 @@ const ResultsPage = () => {
                   {result.layovers.map((layover, index) => (
                     <span key={index}>
                       {index > 0 && ', '}
-                      {layover.duration} in {layover.airport}
+                      {formatTravelTime(layover.duration)} in {layover.airport}
                     </span>
                   ))}
                 </Typography>
