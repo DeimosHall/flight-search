@@ -9,13 +9,13 @@ This application uses Amadeus API to search for flights!
 Using HTTP:
 
 ```bash
-git clone https://github.com/DeimosHall/flight-search.git
+git clone https://github.com/fran-tor/flight-search.git
 ```
 
 Using SSH:
 
 ```bash
-git clone git@github.com:DeimosHall/flight-search.git
+git clone git@github.com:fran-tor/flight-search.git
 ```
 
 2. Move to the project directory:
